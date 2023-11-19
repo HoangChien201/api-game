@@ -6,7 +6,7 @@ const morgan=require('morgan');
 const dotenv=require('dotenv');
 
 //router
-
+const userRouter=require('./router/userRouter')
 
 const PORT=process.env.PORT||3000;
 
@@ -27,6 +27,8 @@ try {
 app.use(bodyParser.json({"limit":"50mb"}))
 app.use(cors());
 app.use(morgan("common"));
+
+app.use('/user',userRouter)
 
 // app.use("/staff",staffRouter);
 
