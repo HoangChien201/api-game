@@ -5,13 +5,15 @@ let bodyParser=require('body-parser');
 const morgan=require('morgan');
 const dotenv=require('dotenv');
 
-//router
+// router
 const userRouter=require('./router/userRouter')
+const forgetRouter=require('./router/routerForgetPassword')
+
 
 const PORT=process.env.PORT||3000;
 
 const app=express();
-const uri="mongodb+srv://hoangchien11522:0368670025@cluster0.hqd4zon.mongodb.net/test?retryWrites=true&w=majority"
+const uri="mongodb+srv://hoangchien11522:0368670025@cluster0.hqd4zon.mongodb.net/game-api?retryWrites=true&w=majority"
 
 
 try {
@@ -29,6 +31,7 @@ app.use(cors());
 app.use(morgan("common"));
 
 app.use('/user',userRouter)
+app.use('/forget-password',forgetRouter)
 
 // app.use("/staff",staffRouter);
 
