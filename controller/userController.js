@@ -13,11 +13,11 @@ const userController={
     },
      login: async(  req , res) =>{
         try {
-            const {email} = req.query;
-            const user = await UserModel.findOne(email);
+            const {email,password} = req.body;
+            const user = await User.findOne({email:email});
             if(!user) throw new Error("Khong tim thaay tai khoang");
             if(user.password != password) throw new Error("mat khau khong dung")
-            return user;
+            return res.status(200).json(user)
         } catch (error) {
             console.log("Lỗi",error);
             throw new Error("lỗi rồi",error)
@@ -26,31 +26,30 @@ const userController={
     },
      changePassword :async (req,res)=>{
         try {
-            const {username,newPassword,oldPassword} = req.body;
-            const user = await UserModel.findOne(username);
+            const {email,newPassword,oldPassword} = req.body;
+            const user = await User.findOne({email:email});
             if(!user) return res.status(500).json({message:"not find account"});
             if(user.password != oldPassword){
-                return res.status(500).json({message:"password error"})
+                return res.status(500).json({message:"password not trung"})
     
             }else{
                 user.password = newPassword;
             }
             // await user.updateOne({password:newPassword});
-            return user.save();
+            return res.status(200).json("change-password success");
         } catch (error) {
             console.log("Loi",error);
             return res.status(400).json({message:error.message});
         }
     },
-     register : async (req,res) => {
+    register : async (req,res) => {
         try {
-            const {username,password} = req.body;
-            const register = await UserModel.create({
-                username:username,
+            const {email,password} = req.body;
+            const register = await User.create({
+                email:email,
                 password:password
             })
-            await register;
-            return res.status(200).json({message:"Sucessfully"})
+            return res.status(200).json({message:"Sucessfully",register})
         } catch (error) {
             console.log("loi",error);
             return res.status(500).json({message:error.message});
