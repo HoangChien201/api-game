@@ -8,7 +8,12 @@ const userShema = new mongoose.Schema({
     password:{
         type: String,
         require:true
-    }
+    },
+    score: { type: Number },
+    positionX: { type: Number},
+    positionY: { type: Number },
+    positionZ: { type: Number },
+    scences:{type:String}
     
 })
 

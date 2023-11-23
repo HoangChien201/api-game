@@ -26,7 +26,7 @@ const forgetPasswordController = {
                     html: `Mật khẩu mới của bạn là : ${passwordNew}`
                 };
                 
-                await transporter.sendMail(mailOptions);
+                await transporter.sendMail(mailOptions); 
                 await User.updateOne({email:user.email},{$set:{password:passwordNew}})
                 res.status(200).json({ status: 1, message: "Gửi mail thành công" });
             }
