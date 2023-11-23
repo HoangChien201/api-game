@@ -9,11 +9,11 @@ const userShema = new mongoose.Schema({
         type: String,
         require:true
     },
-    score: { type: Number },
-    positionX: { type: Number},
-    positionY: { type: Number },
-    positionZ: { type: Number },
-    scences:{type:String}
+    score: { type: Number,require:false },
+    positionX: { type: Number,require:false},
+    positionY: { type: Number,require:false },
+    positionZ: { type: Number,require:false },
+    scences:{type:String,require:false}
     
 })
 

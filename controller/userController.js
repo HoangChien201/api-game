@@ -11,6 +11,14 @@ const userController={
        
 
     },
+    getUsers:async(req,res) =>{
+       try {
+        const user = await User.find({}, 'email score');
+        return res.status(200).json(user)
+       } catch (error) {
+        return res.status(500).json(error)
+       }
+    },
      login: async(  req , res) =>{
         try {
             const {email,password} = req.body;
@@ -45,16 +53,40 @@ const userController={
     register : async (req,res) => {
         try {
             const {email,password} = req.body;
-            const register = await User.create({
+            const register =  User.create({
                 email:email,
                 password:password
             })
+            await register;
+            console.log(register);
+           
             return res.status(200).json({message:"Sucessfully",register})
         } catch (error) {
             console.log("loi",error);
             return res.status(500).json({message:error.message});
         }
     },
+     saveScore : async(req,res) =>{
+        try {
+            const {email,score} = req.body;
+            const saveScore = await User.findOne({email:email}).updateOne({score:score});
+            return res.status(200).json({message:"thành công"})
+        } catch (error) {
+            console.log("Loi",error);
+            throw new Error("Loi",error);
+        }
+    },
+     savePosition : async(req,res)=>{
+        try {
+            const {positionX,positionZ,positionY,email} = req.body;
+            const savePosition = await User.findOne({email:email}).updateOne({positionX:positionX,positionY:positionY,positionZ:positionZ});
+            return res.status(200).json({message:"Thành công"})
+        } catch (error) {
+            console.log("loi",error);
+            return res.status.json({message:"Lỗi"})
+        }
+    },
+    
 
 }
 
