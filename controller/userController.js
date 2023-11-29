@@ -22,6 +22,7 @@ const userController = {
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
+            if(!email || ! password) return res.status(500).json({message:"Cần tài khoản"})
             const user = await User.findOne({ email: email });
             if (!user) throw new Error("Khong tim thaay tai khoang");
             if (user.password != password) throw new Error("mat khau khong dung")
@@ -41,7 +42,7 @@ const userController = {
                 return res.status(500).json({ message: "password not trung" })
 
             } else {
-                user.password = newPassword;
+                await user.updateOne({password:newPassword})
             }
             // await user.updateOne({password:newPassword});
             return res.status(200).json("change-password success");
@@ -67,6 +68,7 @@ const userController = {
         }
     },
     saveScore: async (req, res) => {
+        console.log(req.body);
         try {
             const { email, score } = req.body;
             const saveScore = await User.findOne({ email: email }).updateOne({ score: score });
@@ -78,6 +80,8 @@ const userController = {
     },
     savePosition: async (req, res) => {
         try {
+            const { email} = req.body;
+
             await User.findOne({ email: email }).updateOne(req.body);
             return res.status(200).json({ message: "Thành công" })
         } catch (error) {
