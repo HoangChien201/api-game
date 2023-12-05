@@ -89,6 +89,20 @@ const userController = {
             return res.status.json({ message: "Lỗi" })
         }
     },
+    saveScenes:async(req,res)=>{
+        try {   
+            const {email,scenes} = req.body;
+            const user = await User.findOne({email});
+            if(!user) throw new Error("Email not find");
+            await User.updateOne({email:email},{scenes:scenes});
+            return res.status(200).json({message:"Sucessful"})
+            
+        } catch (error) {
+            console.log("loi", error);
+            return res.status.json({ message: "Lỗi" })
+        }
+    },
+    
 
 
 }
